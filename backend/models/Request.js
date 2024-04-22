@@ -6,3 +6,5 @@ const Request = sequelize.define('request', {
         type: Sequelize.DATE
     }
 });
+
+export default Request;

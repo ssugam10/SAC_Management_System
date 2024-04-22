@@ -9,3 +9,5 @@ const Student = sequelize.define('student', {
         primaryKey: true
     },
 });
+
+export default Student;

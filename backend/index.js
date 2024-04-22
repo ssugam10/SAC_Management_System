@@ -1,8 +1,13 @@
 import express from "express";
 import sequelize from "./config.js";
+
 import booksRoute from "./routes/book.js";
-import Book from "./models/Item.js";
+
+import Item from "./models/Item.js";
 import Student from "./models/Student.js";
+import Request from './models/Request.js';
+import User from './models/User.js';
+import Guard from './models/Guard.js';
 import cors from "cors";
 
 const PORT = 5555;
@@ -18,10 +23,23 @@ app.get("/", (req, res) => {
 
 app.use("/books", booksRoute);
 
-Student.hasOne(user);
+Item.hasMany(Request);
+Request.belongsTo(Item);
+
+Student.hasMany(Request);
+Request.belongsTo(Student);
+
+Student.hasOne(Item);   //Item table will get StudentId column
+Item.belongsTo(Student);
+
+User.hasMany(Student);
+Student.belongsTo(User);
+
+User.hasMany(Guard);
+Guard.belongsTo(User);
 
 sequelize
-  .sync()
+  .sync({force: true})
   .then(() => {
     app.listen(PORT);
     console.log("Database connected and server running!");
