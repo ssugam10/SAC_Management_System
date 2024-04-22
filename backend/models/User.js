@@ -1,25 +1,30 @@
 import Sequelize from 'sequelize';
 import sequelize from '../config.js';
 
-const Book = sequelize.define('book',{
+const User = sequelize.define('user', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    title: {
+    email: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    author: {
-        type:  Sequelize.STRING,
+    password: {
+        type: Sequelize.STRING,
         allowNull: false
     },
-    publishYear: {
-        type: Sequelize.INTEGER,
+    role: { //student or guard
+        type: Sequelize.STRING,
+        default: "student",
+        allowNull: false
+    },
+    name:{
+        type: Sequelize.STRING,
         allowNull: false
     }
 });
 
-export default Book;
+export default User;
