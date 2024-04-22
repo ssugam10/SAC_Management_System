@@ -10,7 +10,8 @@ import moment from "moment";
 const Home = () => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
-
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchParams, setSearchParams] = useState([]);
     useEffect(() => {
         setLoading(true);
         axios
@@ -18,6 +19,13 @@ const Home = () => {
             .then((response) => {
                 setItems(response.data.data);
                 setLoading(false);
+                console.log(response.data.data);
+                let newParams = [];
+                response.data.data.forEach((item, key) => {
+                    newParams[key] = item["name"];
+                });
+                setSearchParams(newParams);
+                console.log(newParams);
             })
             .catch((err) => {
                 console.log(err);
@@ -25,10 +33,26 @@ const Home = () => {
             });
     }, []);
 
+    function search(items) {
+        return items.filter((item) =>
+            item["name"].toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }
+
     return (
         <div className="p-4 h-screen bg-gray-100" style={{ color: "#333" }}>
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-4xl font-bold">Item List</h1>
+                <h1 className="text-3xl font-bold">SAC Mgmt.</h1>
+                <div className="input-box relative right-16">
+                    <input
+                        type="search"
+                        name="search-form"
+                        id="search-form"
+                        className="search-input"
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search user"
+                    />
+                </div>
                 <Link to="/items/create">
                     <MdOutlineAddBox
                         className="mr-5 mt-5 text-blue-500 text-5xl hover:text-blue-700 cursor-pointer"
@@ -59,7 +83,7 @@ const Home = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {items.map((item, index) => (
+                        {search(items).map((item, index) => (
                             <tr
                                 key={item.id}
                                 className={
