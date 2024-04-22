@@ -1,33 +1,47 @@
-import express from 'express';
-import {PORT, sequelize} from './config.js';
-import booksRoute from './routes/book.js';
-import cors from 'cors';
+import express from "express";
+import sequelize from "./config.js";
+
+import itemsRoute from "./routes/item.js";
+
+import Item from "./models/item.js";
+import Student from "./models/student.js";
+import Request from "./models/request.js";
+import User from "./models/user.js";
+import Guard from "./models/guard.js";
+import cors from "cors";
+
+const PORT = 5555;
 
 const app = express();
 
-//Middleware for parsing the req body
 app.use(express.json());
-
-//Middleware for handling CORS POLICY
-//Option 1 : Allow all origins with default of cors(*)
 app.use(cors());
-//Option 2: Allow custom origins
-// app.use(cors({
-//     origin:'http://localhost:3000',
-//     methods:['GET','POST','PUT','DELETE'],
-//     allowedHeaders:['Content-Type']
-// }));
 
-app.get('/',(req,res) => {
-    return res.status(234).send('Welcome to mern stack tutorial');
+app.get("/", (req, res) => {
+  return res.status(234).send("Welcome home");
 });
 
-app.use('/books',booksRoute);
+app.use("/books", itemsRoute);
+
+Item.hasMany(Request);
+Request.belongsTo(Item);
+
+Student.hasMany(Request);
+Request.belongsTo(Student);
+
+Student.hasOne(Item); //Item table will get StudentId column
+Item.belongsTo(Student);
+
+User.hasMany(Student);
+Student.belongsTo(User);
+
+User.hasMany(Guard);
+Guard.belongsTo(User);
 
 sequelize
-    .sync()
-    .then(() => {
-        app.listen(PORT);
-        console.log('Database connected and server running!');
-    })
-    .catch(err => console.log(err));
+  .sync({ force: true })
+  .then(() => {
+    app.listen(PORT);
+    console.log("Database connected and server running!");
+  })
+  .catch((err) => console.log(err));
