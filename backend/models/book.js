@@ -1,20 +1,25 @@
 import Sequelize from 'sequelize';
-import { sequelize } from '../config';
+import sequelize from '../config.js';
 
 const Book = sequelize.define('book',{
-        title: {
-            type: Sequelize.STRING,
-            required: true
-        },
-        author: {
-            type:  Sequelize.STRING,
-            required: true
-        },
-        publishYear: {
-            type: Sequelize.INTEGER,
-            required: true
-        }
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+    },
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    author: {
+        type:  Sequelize.STRING,
+        allowNull: false
+    },
+    publishYear: {
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
-);
+});
 
-module.exports = Book;
+export default Book;

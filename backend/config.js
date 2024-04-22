@@ -1,13 +1,9 @@
-const PORT = 5555;
-const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('sac_management_system', 'root', 'password', {
+import Sequelize from 'sequelize';
+
+const sequelize = new Sequelize('sac_management_system', 'root', 'sugam112', {
     dialect: 'mysql',
     host: 'localhost'
 });     
 
-module.exports = {
-    PORT,
-    sequelize
-};
-
+export default sequelize;
