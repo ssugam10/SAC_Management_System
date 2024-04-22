@@ -3,11 +3,11 @@ import sequelize from "./config.js";
 
 import booksRoute from "./routes/book.js";
 
-import Item from "./models/Item.js";
-import Student from "./models/Student.js";
-import Request from './models/Request.js';
-import User from './models/User.js';
-import Guard from './models/Guard.js';
+import Item from "./models/item.js";
+import Student from "./models/student.js";
+import Request from "./models/request.js";
+import User from "./models/user.js";
+import Guard from "./models/guard.js";
 import cors from "cors";
 
 const PORT = 5555;
@@ -29,7 +29,7 @@ Request.belongsTo(Item);
 Student.hasMany(Request);
 Request.belongsTo(Student);
 
-Student.hasOne(Item);   //Item table will get StudentId column
+Student.hasOne(Item); //Item table will get StudentId column
 Item.belongsTo(Student);
 
 User.hasMany(Student);
@@ -39,7 +39,7 @@ User.hasMany(Guard);
 Guard.belongsTo(User);
 
 sequelize
-  .sync({force: true})
+  .sync({ force: true })
   .then(() => {
     app.listen(PORT);
     console.log("Database connected and server running!");
