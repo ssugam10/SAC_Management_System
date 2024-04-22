@@ -3,25 +3,19 @@ import sequelize from "./config.js";
 
 import itemsRoute from "./routes/item.js";
 
-import Item from "./models/item.js";
-import Student from "./models/student.js";
-import Request from "./models/request.js";
-import User from "./models/user.js";
-import Guard from "./models/guard.js";
+import Item from "./models/Item.js";
+import Student from "./models/Student.js";
+import Request from "./models/Request.js";
+import User from "./models/User.js";
+import Guard from "./models/Guard.js";
 import cors from "cors";
+import router from "./routes/index.js";
+import dotenv from "dotenv";
 
 const PORT = 5555;
 
 const app = express();
-
-app.use(express.json());
-app.use(cors());
-
-app.get("/", (req, res) => {
-  return res.status(234).send("Welcome home");
-});
-
-app.use("/books", itemsRoute);
+dotenv.config();
 
 Item.hasMany(Request);
 Request.belongsTo(Item);
@@ -38,10 +32,21 @@ Student.belongsTo(User);
 User.hasMany(Guard);
 Guard.belongsTo(User);
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+app.get("/", (req, res) => {
+    return res.status(234).send("Welcome home");
+});
+app.use("/api", router);
+
 sequelize
-  .sync({ force: true })
-  .then(() => {
-    app.listen(PORT);
-    console.log("Database connected and server running!");
-  })
-  .catch((err) => console.log(err));
+    .sync({ force: false })
+    .then(() => {
+        app.listen(PORT);
+        console.log(
+            `Database connected and server running on port ${PORT}! 🚀`
+        );
+    })
+    .catch((err) => console.log(err));

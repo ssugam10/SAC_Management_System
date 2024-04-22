@@ -1,9 +1,9 @@
+import Sequelize from "sequelize";
 
-import Sequelize from 'sequelize';
-
-const sequelize = new Sequelize('sac_management_system', 'root', 'sugam112', {
-    dialect: 'mysql',
-    host: 'localhost'
-});     
+const sequelize = new Sequelize("sac_mgmt", "root", "root", {
+    host: "localhost",
+    port: 3306,
+    dialect: "mysql",
+});
 
 export default sequelize;
