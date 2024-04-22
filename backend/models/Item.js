@@ -1,25 +1,28 @@
-import Sequelize from 'sequelize';
-import sequelize from '../config.js';
+import Sequelize from "sequelize";
+import sequelize from "../config.js";
 
-const Item = sequelize.define('item',{
+const Item = sequelize.define("item", {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
     },
     name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
     },
-    
+
     timeOfIssue: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.DATE,
+        allowNull: true,
     },
-    needRepairs: Sequelize.BOOLEAN,
-    quantity: Sequelize.INTEGER,
-    remaining: Sequelize.INTEGER
+    needRepairs: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+    },
+    quantity: { type: Sequelize.INTEGER, default: 1 },
+    remaining: { type: Sequelize.INTEGER, default: 1 },
 });
 
 export default Item;

@@ -32,7 +32,7 @@ const Home = () => {
                 <Link to="/books/create">
                     <MdOutlineAddBox
                         className="mr-5 mt-5 text-blue-500 text-5xl hover:text-blue-700 cursor-pointer"
-                        title="Add New Book"
+                        title="Add New Item"
                     />
                 </Link>
             </div>
