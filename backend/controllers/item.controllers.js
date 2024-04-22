@@ -41,3 +41,17 @@ export const createItem = async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 };
+
+export const deleteItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log("ID: ", id);
+        const result = await Item.destroy({ where: { id } });
+        if (!result)
+            return res.status(404).json({ message: "Item not found!" });
+        return res.status(200).send({ message: "Item deleted successfully!" });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send({ message: error.message });
+    }
+};

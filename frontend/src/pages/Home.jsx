@@ -26,10 +26,10 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="p-4 bg-gray-100" style={{ color: "#333" }}>
+        <div className="p-4 h-screen bg-gray-100" style={{ color: "#333" }}>
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-4xl font-bold">Item List</h1>
-                <Link to="/books/create">
+                <Link to="/items/create">
                     <MdOutlineAddBox
                         className="mr-5 mt-5 text-blue-500 text-5xl hover:text-blue-700 cursor-pointer"
                         title="Add New Item"
@@ -61,7 +61,7 @@ const Home = () => {
                     <tbody>
                         {items.map((item, index) => (
                             <tr
-                                key={item._id}
+                                key={item.id}
                                 className={
                                     index % 2 === 0
                                         ? ""
@@ -99,21 +99,21 @@ const Home = () => {
                                 </td>
                                 <td className="px-4 py-2 flex items-center justify-center gap-x-4">
                                     <Link
-                                        to={`/books/details/${item._id}`}
+                                        to={`/items/details/${item.id}`}
                                         className="text-green-600 hover:text-green-800"
                                         title="View Details"
                                     >
                                         <BsInfoCircle className="text-3xl cursor-pointer" />
                                     </Link>
                                     <Link
-                                        to={`/books/edit/${item._id}`}
+                                        to={`/items/edit/${item.id}`}
                                         className="text-yellow-600 hover:text-yellow-800"
                                         title="Edit Item"
                                     >
                                         <AiOutlineEdit className="text-3xl cursor-pointer" />
                                     </Link>
                                     <Link
-                                        to={`/books/delete/${item._id}`}
+                                        to={`/items/delete/${item.id}`}
                                         className="text-red-600 hover:text-red-800"
                                         title="Delete Item"
                                     >
