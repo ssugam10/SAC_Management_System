@@ -7,7 +7,7 @@ import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 
 const Home = () => {
-  const [books, setBooks] = useState([]);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -15,8 +15,7 @@ const Home = () => {
     axios
       .get("http://localhost:5555/books")
       .then((response) => {
-        setBooks(response.data.data);//reponse.data is the object of our res. result and data is the attr. we created
-        //console.log(books);
+        setItems(response.data.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -26,58 +25,54 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center ">
-        <h1 className="text 3xl my-8">Books List</h1>
+    <div className="p-4 bg-gray-100" style={{color:"#333"}}>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold">Item List</h1>
         <Link to="/books/create">
-          <MdOutlineAddBox className="text-sky-800 text-4xl" />
+          <MdOutlineAddBox className="mr-5 mt-5 text-blue-500 text-5xl hover:text-blue-700 cursor-pointer" title="Add New Book" />
         </Link>
       </div>
-
+  
       {loading ? (  
         <Spinner />
       ) : (
-        <table className="w-full border-seperate border-spacing-2">
+        <table className="w-full">
           <thead>
-            <tr>
-              <th className="border border-slate-600 rounded-md">No</th>
-              <th className="border border-slate-600 rounded-md">Title</th>
-              <th className="border border-slate-600 rounded-md max-md:hidden">
-                Author
-              </th>
-              <th className="border border-slate-600 rounded-md max-md:hidden">
-                Publish Year
-              </th>
-              <th className="border border-slate-600 rounded-md">Operations</th>
+            <tr className=" text-white" style={{backgroundColor:"#333"}}>
+              <th className="px-4 py-2">ID</th>
+              <th className="px-4 py-2">Name</th>
+              <th className="px-4 py-2">Time of Issue</th>
+              <th className="px-4 py-2">Need repairs?</th>
+              <th className="px-4 py-2">Quantity</th>
+              <th className="px-4 py-2">Remaining</th>
+              <th className="px-4 py-2">Created At?</th>
+              <th className="px-4 py-2">Updated At?</th>
+              <th className="px-4 py-2">Student ID</th>
+              <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {books.map((book, index) => (
-              <tr key={book._id} className="h-8">
-                <td className="border border-state-700 rounded-md text-center">
-                  {index + 1}
-                </td>
-                <td className="border border-state-700 rounded-md text-center">
-                  {book.title}
-                </td>
-                <td className="border border-slate-700 rounded-md text-center max-md:hidden">
-                  {book.author}
-                </td>
-                <td className="border border-slate-700 rounded-md text-center max-md:hidden">
-                  {book.publishYear}
-                </td>
-                <td className="border border-state-700 rounded-md text-center">
-                  <div className="flex justify-center gap-x-4">
-                    <Link to={`/books/details/${book._id}`}>
-                      <BsInfoCircle className="text-2xl text-green-800" />
-                    </Link>
-                    <Link to={`/books/edit/${book._id}`}>
-                      <AiOutlineEdit className="text-2xl text-yellow-600" />
-                    </Link>
-                    <Link to={`/books/delete/${book._id}`}>
-                      <MdOutlineDelete className="text-2xl text-red-600" />
-                    </Link>
-                  </div>
+            {items.map((item, index) => (
+              <tr key={item._id} className={index % 2 === 0 ? "" : "bg-gray-200 text-gray-800"}>
+                <td className="px-4 py-2 text-center">{index + 1}</td>
+                <td className="px-4 py-2 text-center">{item.name}</td>
+                <td className="px-4 py-2 text-center">{item.timeOfIssue}</td>
+                <td className="px-4 py-2 text-center">{item.needRepairs}</td>
+                <td className="px-4 py-2 text-center">{item.quantity}</td>
+                <td className="px-4 py-2 text-center">{item.remaining}</td>
+                <td className="px-4 py-2 text-center">{item.createdAt}</td>
+                <td className="px-4 py-2 text-center">{item.updatedAt}</td>
+                <td className="px-4 py-2 text-center">{item.studentId}</td>
+                <td className="px-4 py-2 flex items-center justify-center gap-x-4">
+                  <Link to={`/books/details/${item._id}`} className="text-green-600 hover:text-green-800" title="View Details">
+                    <BsInfoCircle className="text-3xl cursor-pointer" />
+                  </Link>
+                  <Link to={`/books/edit/${item._id}`} className="text-yellow-600 hover:text-yellow-800" title="Edit Item">
+                    <AiOutlineEdit className="text-3xl cursor-pointer" />
+                  </Link>
+                  <Link to={`/books/delete/${item._id}`} className="text-red-600 hover:text-red-800" title="Delete Item">
+                    <MdOutlineDelete className="text-3xl cursor-pointer" />
+                  </Link>
                 </td>
               </tr>
             ))}
@@ -85,7 +80,7 @@ const Home = () => {
         </table>
       )}
     </div>
-  );
+  );  
 };
 
 export default Home;
