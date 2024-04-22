@@ -1,7 +1,7 @@
 import express from "express";
 import sequelize from "./config.js";
 
-import booksRoute from "./routes/book.js";
+import itemsRoute from "./routes/item.js";
 
 import Item from "./models/item.js";
 import Student from "./models/student.js";
@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
   return res.status(234).send("Welcome home");
 });
 
-app.use("/books", booksRoute);
+app.use("/books", itemsRoute);
 
 Item.hasMany(Request);
 Request.belongsTo(Item);
