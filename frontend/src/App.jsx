@@ -2,19 +2,19 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-import CreateBook from "./pages/CreateBooks";
-import ShowBook from "./pages/ShowBook";
-import EditBook from "./pages/EditBook";
-import DeleteBook from "./pages/DeleteBook";
+import CreateItem from "./pages/CreateItems";
+import ShowItem from "./pages/ShowItem";
+import EditItem from "./pages/EditItem";
+import DeleteItem from "./pages/DeleteItem";
 
 const App = () => {
     return (
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/items/create" element={<CreateBook />} />
-            <Route path="/items/details/:id" element={<ShowBook />} />
-            <Route path="/items/edit/:id" element={<EditBook />} />
-            <Route path="/items/delete/:id" element={<DeleteBook />} />
+            <Route path="/items/create" element={<CreateItem />} />
+            <Route path="/items/details/:id" element={<ShowItem />} />
+            <Route path="/items/edit/:id" element={<EditItem />} />
+            <Route path="/items/delete/:id" element={<DeleteItem />} />
         </Routes>
     );
 };

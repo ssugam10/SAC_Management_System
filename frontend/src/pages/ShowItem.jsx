@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 
-const ShowBook = () => {
-    const [item, setBook] = useState({});
+const ShowItem = () => {
+    const [item, setItem] = useState({});
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
 
     useEffect(() => {
         setLoading(true);
         axios
-            .get(`http://localhost:5555/items/${id}`)
+            .get(`http://localhost:5555/api/item/${id}`)
             .then((response) => {
                 console.log(response);
-                setBook(response.data);
+                setItem(response.data);
                 setLoading(false);
             })
             .catch((err) => {
@@ -34,42 +34,33 @@ const ShowBook = () => {
                 <div className="flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4">
                     <div className="my-4">
                         <span className="text-xl mr-4 text-gray-500">Id</span>
-                        <span>{item._id}</span>
+                        <span>{item.id}</span>
+                    </div>
+
+                    <div className="my-4">
+                        <span className="text-xl mr-4 text-gray-500">Name</span>
+                        <span>{item.name}</span>
                     </div>
 
                     <div className="my-4">
                         <span className="text-xl mr-4 text-gray-500">
-                            Title
+                            Student
                         </span>
-                        <span>{item.title}</span>
+                        <span>{item.author ? item.author : "-"}</span>
                     </div>
 
                     <div className="my-4">
                         <span className="text-xl mr-4 text-gray-500">
-                            Author
+                            Quantity
                         </span>
-                        <span>{item.author}</span>
+                        <span>{item.quantity}</span>
                     </div>
 
                     <div className="my-4">
                         <span className="text-xl mr-4 text-gray-500">
-                            Publish Year
+                            Remaining
                         </span>
-                        <span>{item.publishYear}</span>
-                    </div>
-
-                    <div className="my-4">
-                        <span className="text-xl mr-4 text-gray-500">
-                            Create Time
-                        </span>
-                        <span>{new Date(item.createdAt).toString()}</span>
-                    </div>
-
-                    <div className="my-4">
-                        <span className="text-xl mr-4 text-gray-500">
-                            Last Update Time
-                        </span>
-                        <span>{new Date(item.updatedAt).toString()}</span>
+                        <span>{item.remaining}</span>
                     </div>
                 </div>
             )}
@@ -77,4 +68,4 @@ const ShowBook = () => {
     );
 };
 
-export default ShowBook;
+export default ShowItem;

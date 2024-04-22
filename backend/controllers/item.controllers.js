@@ -10,6 +10,46 @@ export const getItems = async (req, res) => {
     }
 };
 
+export const getItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const item = await Item.findOne({
+            where: { id },
+        });
+        if (!item) return res.status(404).send({ message: "Item not found!" });
+        return res.status(200).send(item);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({ message: error.message });
+    }
+};
+
+export const updateItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, quantity, needRepairs } = req.body;
+        const item = await Item.findOne({
+            where: { id },
+        });
+        if (!item) return res.status(404).send({ message: "Item not found!" });
+
+        const updatedItem = {
+            name: name ? name : item.name,
+            quantity: quantity ? quantity : item.quantity,
+            remaining: quantity ? quantity : item.quantity,
+            needRepairs: needRepairs ? needRepairs : item.needRepairs,
+        };
+
+        const result = await Item.update(updatedItem, { where: { id } });
+        if (!result)
+            return res.status(404).send({ message: "Item not updated!" });
+        return res.status(200).send({ message: "Item updated successfully!" });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({ message: error.message });
+    }
+};
+
 export const createItem = async (req, res) => {
     const { name, quantity, repairs } = req.body;
     try {

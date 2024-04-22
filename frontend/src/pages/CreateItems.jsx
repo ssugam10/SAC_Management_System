@@ -11,7 +11,7 @@ const CreateItem = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSaveBook = () => {
+    const handleSaveItem = () => {
         const data = {
             name,
             repairs: needRepairs,
@@ -96,7 +96,7 @@ const CreateItem = () => {
 
                 <button
                     className="mt-2 mb-2 py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
-                    onClick={handleSaveBook}
+                    onClick={handleSaveItem}
                 >
                     Save
                 </button>

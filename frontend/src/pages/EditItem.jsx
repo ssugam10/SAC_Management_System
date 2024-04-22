@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-const EditBook = () => {
-    const [title, setTitle] = useState("");
-    const [author, setAuthor] = useState("");
-    const [publishYear, setPublishYear] = useState("");
+const EditItem = () => {
+    const [item, setItem] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { id } = useParams();
 
     useEffect(() => {
         setLoading(true);
-        const result = axios
-            .get(`http://localhost:5555/items/${id}`)
+        axios
+            .get(`http://localhost:5555/api/item/${id}`)
             .then((response) => {
-                setTitle(response.data.title);
-                setAuthor(response.data.author);
-                setPublishYear(response.data.publishYear);
+                setItem(response.data);
                 setLoading(false);
             })
             .catch((err) => {
@@ -29,15 +25,10 @@ const EditBook = () => {
             });
     }, []);
 
-    const handleEditBook = () => {
-        const data = {
-            title,
-            author,
-            publishYear,
-        };
+    const handleEditItem = () => {
         setLoading(true);
         axios
-            .put(`http://localhost:5555/items/${id}`, data)
+            .put(`http://localhost:5555/api/item/${id}`, item)
             .then(() => {
                 setLoading(false);
                 navigate("/");
@@ -56,35 +47,54 @@ const EditBook = () => {
             {loading ? <Spinner /> : ""}
             <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
                 <div className="my-4">
-                    <label className="text-xl mr-4 text-gray-500">Title</label>
+                    <label className="text-xl mr-4 text-gray-500">Name</label>
                     <input
                         type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        name="name"
+                        value={item?.name}
+                        onChange={(e) =>
+                            setItem({ ...item, name: e.target.value })
+                        }
                         className="border-2 border-gray-500 px-4 py-2 w-full"
                     />
                 </div>
                 <div className="my-4">
-                    <label className="text-xl mr-4 text-gray-500">Author</label>
+                    <label className="text-xl mr-4 text-gray-500">
+                        Quantity
+                    </label>
                     <input
                         type="text"
-                        value={author}
-                        onChange={(e) => setAuthor(e.target.value)}
+                        name="quantity"
+                        value={item?.quantity}
+                        onChange={(e) =>
+                            setItem({ ...item, quantity: e.target.value })
+                        }
                         className="border-2 border-gray-500 px-4 py-2  w-full "
                     />
                 </div>
                 <div className="my-4">
                     <label className="text-xl mr-4 text-gray-500">
-                        Publish Year
+                        Needs Repairs?
                     </label>
-                    <input
-                        type="number"
-                        value={publishYear}
-                        onChange={(e) => setPublishYear(e.target.value)}
-                        className="border-2 border-gray-500 px-4 py-2  w-full "
-                    />
+                    <div>
+                        <select
+                            id="needRepairs"
+                            value={item?.needRepairs ? item.needRepairs : false}
+                            onChange={(e) => {
+                                setItem({
+                                    ...item,
+                                    needRepairs: e.target.value,
+                                });
+                                console.log(e.target.value);
+                            }}
+                            className="border-2 border-gray-500 px-4 py-2  w-full "
+                        >
+                            <option value={false}>No</option>
+                            <option value={true}>Yes</option>
+                        </select>
+                    </div>
                 </div>
-                <button className="p-2 bg-sky-300 m-8" onClick={handleEditBook}>
+                <button className="p-2 bg-sky-300 m-8" onClick={handleEditItem}>
                     Save
                 </button>
             </div>
@@ -92,4 +102,4 @@ const EditBook = () => {
     );
 };
 
-export default EditBook;
+export default EditItem;

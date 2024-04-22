@@ -46,7 +46,7 @@ const Home = () => {
                             className=" text-white"
                             style={{ backgroundColor: "#333" }}
                         >
-                            <th className="px-4 py-2">ID</th>
+                            <th className="px-4 py-2">Index</th>
                             <th className="px-4 py-2">Name</th>
                             <th className="px-4 py-2">Time of Issue</th>
                             <th className="px-4 py-2">Need repairs?</th>
