@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleLogin  = () => {
     const data = {
@@ -16,13 +16,12 @@ const Login = () => {
 
     axios.post(`http://localhost:5555/api/auth/login`,data)
         .then((user) => {
-            if(user)    console.log("User successfully Logged in!");
-            else navigate('/login');
-
-            console.log("role", user.data.role);
-            if(user.data.role === 'student') navigate(`/items/student/${user.id}`);
-            else if(user.data.role === 'guard') navigate('/');
-            else navigate('/login');
+            if(user.data){
+              console.log("User successfully Logged in!");
+              console.log(user.data);
+              navigate('/');
+            }    
+            navigate('/login');
         })
         .catch(err => console.log(err));
   }
@@ -31,7 +30,7 @@ const Login = () => {
     <div className="p-8 h-screen bg-gray-200">
       <h1 className="text-3xl font-bold my-4 text-center">Login</h1>
 
-      <div className="my-4">
+      <div className="my-4 w-80">
         <label htmlFor="email" className="text-lg font-semibold text-gray-800">
           Email
         </label>
@@ -44,7 +43,7 @@ const Login = () => {
         />
       </div>
 
-      <div className="my-4">
+      <div className="my-4 w-80">
         <label
           htmlFor="password"
           className="text-lg font-semibold text-gray-800"
