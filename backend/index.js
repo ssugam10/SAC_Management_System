@@ -44,11 +44,12 @@ app.use(morgan('dev'));
 app.get("/", (req, res) => {
     return res.status(234).send("Welcome home");
 });
+app.use("/api", router);
+
 sequelize
     .sync({ force: false })
     .then(() => {
         app.listen(PORT);
-        app.use("/api", router);
         console.log(
             `Database connected and server running on port ${PORT}! 🚀`
         );
