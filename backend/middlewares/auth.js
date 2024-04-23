@@ -3,7 +3,7 @@ import Student from "../models/Student.js";
 import { getUser, setUser } from "../services/auth.js";
 
 export async function studentAuth(req, res, next) {
-    const tokenCookie = req.cookies?.token;
+    const tokenCookie = req.headers["authorization"].split(" ")[1];
     console.log("TOKEN: ", tokenCookie);
     req.user = null;
     if (!tokenCookie) {
@@ -23,7 +23,8 @@ export async function studentAuth(req, res, next) {
 }
 
 export async function guardAuth(req, res, next) {
-    const tokenCookie = req.cookies?.token;
+    console.log(req.headers);
+    const tokenCookie = req.headers["authorization"].split(" ")[1];
     console.log("TOKEN: ", tokenCookie);
     req.user = null;
     if (!tokenCookie) {

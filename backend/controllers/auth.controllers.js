@@ -68,12 +68,12 @@ export const login = async (req, res) => {
         }
 
         const token = setUser({ id: user.id, role: user.role });
-        res.cookie("token", token, { httpOnly: true });
         return res.status(200).send({
             id: user.id,
             role: user.role,
             name: user.name,
             email: user.email,
+            token,
         });
     } catch (error) {
         console.log(error);

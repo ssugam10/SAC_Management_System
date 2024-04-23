@@ -19,7 +19,11 @@ const CreateItem = () => {
         };
         setLoading(true);
         axios
-            .post(`http://localhost:5555/api/item/`, data)
+            .post(`http://localhost:5555/api/item/`, data, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            })
             .then(() => {
                 setLoading(false);
                 navigate("/");

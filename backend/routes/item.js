@@ -20,8 +20,8 @@ router.get("/", getItems);
 router.get("/:id", getItem);
 router.get("/:id/queue", getQueue);
 
-router.delete("/:id",guardAuth, deleteItem);
+router.delete("/:id", guardAuth, deleteItem);
 
-router.put("/:id",guardAuth, updateItem);
+router.put("/:id", guardAuth, updateItem);
 
 export default router;

@@ -44,7 +44,6 @@
 
 // export default StudentPage;
 
-
 // import React, { useState, useEffect } from 'react';
 
 // const StudentPage = () => {
@@ -91,41 +90,46 @@
 
 // export default StudentPage;
 
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios'
-
-const StudentPage =  () => {
-    const idd=useParams();
+const StudentPage = () => {
+    const idd = useParams();
     console.log(idd);
-    const [logs, setLogs] = useState([{
-        item:{
-            name:"hello"
+    const [logs, setLogs] = useState([
+        {
+            item: {
+                name: "hello",
+            },
+            timeOfReturn: Date.now(),
         },
-        timeOfReturn: Date.now()
-    },]);
+    ]);
     const [showAddItemForm, setShowAddItemForm] = useState(false);
-    const [itemId, setItemId] = useState('');
+    const [itemId, setItemId] = useState("");
     const [borrowTime, setBorrowTime] = useState(Date());
-    const[changed,setChanged]=useState(0);
+    const [changed, setChanged] = useState(0);
+    const [items, setItems] = useState([]);
 
-    useEffect(()=>{
-        (async()=>{
-            const histsory=await axios.get(`http://localhost:5555/api/students/${idd.id}/historyLogs`);
+    useEffect(() => {
+        (async () => {
+            const histsory = await axios.get(
+                `http://localhost:5555/api/student/${idd.id}/historyLogs`
+            );
             console.log(histsory);
-            setLogs([...histsory.data.student.historyLogs])
-        })()
-    },[changed])
+            setLogs([...histsory.data.student.historyLogs]);
+        })();
+    }, [changed]);
 
-
-
-
-
-
-
-
-
+    useEffect(() => {
+        (async () => {
+            const fetchItems = await axios.get(
+                `http://localhost:5555/api/item`
+            );
+            console.log(fetchItems);
+            setItems([fetchItems.data.data]);
+        })();
+    }, []);
 
     const handleAddItemClick = () => {
         setShowAddItemForm(true);
@@ -137,32 +141,58 @@ const StudentPage =  () => {
         // After successful submission, you may want to update the logs data
         // and hide the form
         setShowAddItemForm(false);
-        (async()=>{
+        (async () => {
             const data = {
                 itemId, // Replace with the actual item ID
-                timeOfBorrowing: borrowTime // Replace with the actual time of borrowing
-              };
-            const histsory=await axios.post(`http://localhost:5555/api/students/${idd.id}/addItem`, data);
+                timeOfBorrowing: borrowTime, // Replace with the actual time of borrowing
+            };
+            const histsory = await axios.post(
+                `http://localhost:5555/api/students/${idd.id}/addItem`,
+                data
+            );
             console.log(histsory);
             // console.log(logs);
             setChanged(1);
             // setLogs([...histsory.data.student.historyLogs])
-        })()
+        })();
     };
 
     return (
         <div>
-            <h2>Previous Logs For Student with ID: {idd.id} and Name: {}</h2>
-            <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+            <h2>
+                Previous Logs For Student with ID: {idd.id} and Name: {}
+            </h2>
+            <table style={{ borderCollapse: "collapse", width: "100%" }}>
                 <thead>
                     <tr>
-                        <th style={{ border: '1px solid black', padding: '8px' }}>Item Name</th>
-                        <th style={{ border: '1px solid black', padding: '8px' }}>Issue Time</th>
-                        <th style={{ border: '1px solid black', padding: '8px' }}>Return Time</th>
+                        <th
+                            style={{
+                                border: "1px solid black",
+                                padding: "8px",
+                            }}
+                        >
+                            Item Name
+                        </th>
+                        <th
+                            style={{
+                                border: "1px solid black",
+                                padding: "8px",
+                            }}
+                        >
+                            Issue Time
+                        </th>
+                        <th
+                            style={{
+                                border: "1px solid black",
+                                padding: "8px",
+                            }}
+                        >
+                            Return Time
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {logs.map((log,index) => {
+                    {logs.map((log, index) => {
                         // if(log.returnTime){
                         //     var timeIts=new Date(log.returnTime);
                         //     var hours = timeIts.getHours();
@@ -178,26 +208,74 @@ const StudentPage =  () => {
                         //     var currentTime = hours + ":" + minutes + ":" + seconds;
                         // }
                         return (
-                       <tr key={index} style={{ border: '1px solid black' }}>
-                           <td style={{ border: '1px solid black', padding: '8px' }}>{log.item.name}</td>
-                           <td style={{ border: '1px solid black', padding: '8px' }}>{log.timeOfIssue || <span style={{ color: 'red' }}>PENDING</span>}</td>
-                           <td style={{ border: '1px solid black', padding: '8px' }}>{log.timeOfReturn || <span style={{ color: 'red' }}>PENDING</span>}</td>
-                       </tr>
-                   )
-                   })}
+                            <tr
+                                key={index}
+                                style={{ border: "1px solid black" }}
+                            >
+                                <td
+                                    style={{
+                                        border: "1px solid black",
+                                        padding: "8px",
+                                    }}
+                                >
+                                    {log.item.name}
+                                </td>
+                                <td
+                                    style={{
+                                        border: "1px solid black",
+                                        padding: "8px",
+                                    }}
+                                >
+                                    {log.timeOfIssue || (
+                                        <span style={{ color: "red" }}>
+                                            PENDING
+                                        </span>
+                                    )}
+                                </td>
+                                <td
+                                    style={{
+                                        border: "1px solid black",
+                                        padding: "8px",
+                                    }}
+                                >
+                                    {log.timeOfReturn || (
+                                        <span style={{ color: "red" }}>
+                                            PENDING
+                                        </span>
+                                    )}
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
-            {!logs.some(log => !log.timeOfReturn) && ( // Check if there are no pending items
+            {!logs.some((log) => !log.timeOfReturn) && ( // Check if there are no pending items
                 <button onClick={handleAddItemClick}>+</button>
             )}
             {showAddItemForm && (
                 <div>
                     <h2>Add New Item</h2>
-                    <input type="text" value={itemId} onChange={e => setItemId(e.target.value)} placeholder="Item ID" />
-                    <input type="datetime-local" value={borrowTime} onChange={e => setBorrowTime(e.target.value)} placeholder="Borrow Time" />
+                    <input
+                        type="text"
+                        value={itemId}
+                        onChange={(e) => setItemId(e.target.value)}
+                        placeholder="Item ID"
+                    />
+                    <input
+                        type="datetime-local"
+                        value={borrowTime}
+                        onChange={(e) => setBorrowTime(e.target.value)}
+                        placeholder="Borrow Time"
+                    />
                     <button onClick={handleAddItemSubmit}>Request Item</button>
                 </div>
             )}
+
+            <div>
+                <h2 className="font-semibold text-xl mt-10">
+                    Create a request for an item!
+                </h2>
+            </div>
         </div>
     );
 };

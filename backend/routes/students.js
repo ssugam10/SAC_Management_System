@@ -16,7 +16,7 @@ const router = express.Router();
 
 // Route to get history logs of a specific student by ID
 router.get("/:studentId", getStudentDetails);
-router.get("/:studentId/historyLogs", studentAuth, getStudentHistoryLogs);
-router.post("/:studentId/addItem", studentAuth, addItemToHistoryLogs);
+router.get("/:studentId/historyLogs", getStudentHistoryLogs);
+router.post("/:studentId/addItem", addItemToHistoryLogs);
 
 export default router;
