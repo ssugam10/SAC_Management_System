@@ -3,7 +3,7 @@ import Item from "../models/Item.js";
 import HistoryLog from "../models/HistoryLog.js";
 
 export async function getStudentHistoryLogs(req, res) {
-    const { studentId } = req.params;
+    const studentId = req.user.studentId;
     console.log("yooooo" + studentId);
 
     try {
@@ -36,9 +36,8 @@ export async function getStudentHistoryLogs(req, res) {
 }
 
 export async function addItemToHistoryLogs(req, res) {
-    const { studentId } = req.params;
     const { itemId, timeOfBorrowing } = req.body;
-
+    const studentId = req.user.studentId;
     try {
         // Find the student by ID
         const student = await Student.findByPk(studentId);

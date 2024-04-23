@@ -8,6 +8,7 @@ export const createRequest = async (req, res) => {
     itemId = Number(itemId);
     quantity = Number(quantity);
     const studentId = Number(req.user.studentId);
+
     try {
         if (!itemId || !quantity) {
             return res

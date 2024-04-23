@@ -19,7 +19,10 @@ const Login = () => {
                 if (user.data) {
                     console.log("User successfully Logged in!");
                     console.log(user.data);
-                    navigate("/");
+                    localStorage.setItem("token", user.data.token);
+                    if (user.data.role === "student")
+                        navigate(`/items/student/${user.data.id}`);
+                    else navigate("/");
                 } else navigate("/login");
             })
             .catch((err) => console.log(err));
