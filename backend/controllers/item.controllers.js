@@ -1,4 +1,5 @@
 import Item from "../models/Item.js";
+import Request from "../models/Request.js";
 
 export const getItems = async (req, res) => {
     try {
@@ -93,5 +94,26 @@ export const deleteItem = async (req, res) => {
     } catch (error) {
         console.log(error.message);
         res.status(500).send({ message: error.message });
+    }
+};
+
+export const getQueue = async (req, res) => {
+    try {
+        const itemId = req.params.id; // Get item ID from URL parameters
+
+        const item = await Item.findByPk(itemId, {
+            include: Request,
+        });
+
+        if (!item) {
+            return res.status(404).send({ message: "Item not found" });
+        }
+
+        res.status(200).json(item.requests); // Send back the requests related to the item
+    } catch (error) {
+        console.error("Error fetching requests:", error);
+        res.status(500).send({
+            message: "Error retrieving requests for the item",
+        });
     }
 };

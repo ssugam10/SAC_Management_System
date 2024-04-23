@@ -12,6 +12,7 @@ import HistoryLog from "./models/HistoryLog.js";
 import cors from "cors";
 import router from "./routes/index.js";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 const PORT = 5555;
 
@@ -33,13 +34,14 @@ Student.belongsTo(User);
 User.hasMany(Guard);
 Guard.belongsTo(User);
 
-Student.hasMany(HistoryLog, { as: 'historyLogs' });
-HistoryLog.belongsTo(Student, { foreignKey: 'studentId', as: 'student' });
+Student.hasMany(HistoryLog, { as: "historyLogs" });
+HistoryLog.belongsTo(Student, { foreignKey: "studentId", as: "student" });
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
     return res.status(234).send("Welcome home");

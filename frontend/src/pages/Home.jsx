@@ -6,12 +6,12 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 import moment from "moment";
+import Queue from "./Queue";
 
 const Home = () => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    const [searchParams, setSearchParams] = useState([]);
     useEffect(() => {
         setLoading(true);
         axios
@@ -24,7 +24,6 @@ const Home = () => {
                 response.data.data.forEach((item, key) => {
                     newParams[key] = item["name"];
                 });
-                setSearchParams(newParams);
                 console.log(newParams);
             })
             .catch((err) => {
@@ -32,6 +31,8 @@ const Home = () => {
                 setLoading(false);
             });
     }, []);
+
+    const [showQueue, setShowQueue] = useState(false);
 
     function search(items) {
         return items.filter((item) =>
@@ -50,7 +51,7 @@ const Home = () => {
                         id="search-form"
                         className="search-input"
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search user"
+                        placeholder="Search item by name"
                     />
                 </div>
                 <Link to="/items/create">
@@ -122,13 +123,19 @@ const Home = () => {
                                     {item.studentId ? item.studentId : "-"}
                                 </td>
                                 <td className="px-4 py-2 flex items-center justify-center gap-x-4">
-                                    <Link
+                                    <button
+                                        className="text-green-600 hover:text-green-800"
+                                        onClick={() => {
+                                            setShowQueue(!showQueue);
+                                        }}
+                                    >
+                                        {/* <Link
                                         to={`/items/details/${item.id}`}
                                         className="text-green-600 hover:text-green-800"
                                         title="View Details"
-                                    >
+                                    > */}
                                         <BsInfoCircle className="text-3xl cursor-pointer" />
-                                    </Link>
+                                    </button>
                                     <Link
                                         to={`/items/edit/${item.id}`}
                                         className="text-yellow-600 hover:text-yellow-800"
@@ -148,6 +155,12 @@ const Home = () => {
                         ))}
                     </tbody>
                 </table>
+            )}
+            {showQueue && (
+                <Queue
+                    showQueue={showQueue}
+                    setShowQueue={setShowQueue}
+                ></Queue>
             )}
         </div>
     );
