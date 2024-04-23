@@ -21,7 +21,7 @@ const Login = () => {
               console.log(user.data);
               navigate('/');
             }    
-            navigate('/login');
+            else navigate('/login');
         })
         .catch(err => console.log(err));
   }
