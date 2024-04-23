@@ -12,6 +12,7 @@ const Home = () => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedItem, setSelectedItem] = useState({});
     useEffect(() => {
         setLoading(true);
         axios
@@ -126,6 +127,7 @@ const Home = () => {
                                     <button
                                         className="text-green-600 hover:text-green-800"
                                         onClick={() => {
+                                            setSelectedItem(item);
                                             setShowQueue(!showQueue);
                                         }}
                                     >
@@ -160,6 +162,7 @@ const Home = () => {
                 <Queue
                     showQueue={showQueue}
                     setShowQueue={setShowQueue}
+                    item={selectedItem}
                 ></Queue>
             )}
         </div>

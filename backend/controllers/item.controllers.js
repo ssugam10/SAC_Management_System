@@ -109,7 +109,7 @@ export const getQueue = async (req, res) => {
             return res.status(404).send({ message: "Item not found" });
         }
 
-        res.status(200).json(item.requests); // Send back the requests related to the item
+        res.status(200).json(item); // Send back the requests related to the item
     } catch (error) {
         console.error("Error fetching requests:", error);
         res.status(500).send({

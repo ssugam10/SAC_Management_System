@@ -1,6 +1,6 @@
 import { getUser, setUser } from "../services/auth.js";
 
-export function userAuth(req, res, next) {
+export function studentAuth(req, res, next) {
     const tokenCookie = req.cookies?.token;
     console.log("TOKEN: ", tokenCookie);
     req.user = null;
@@ -16,7 +16,7 @@ export function userAuth(req, res, next) {
     }
 
     req.user = user;
-    return next();
+    next();
 }
 
 export function guardAuth(req, res, next) {
@@ -31,5 +31,5 @@ export function guardAuth(req, res, next) {
         res.status(403).send("Unauthorized");
     }
     req.user = user;
-    return next();
+    next();
 }
