@@ -1,6 +1,8 @@
+import Guard from "../models/Guard.js";
+import Student from "../models/Student.js";
 import { getUser, setUser } from "../services/auth.js";
 
-export function studentAuth(req, res, next) {
+export async function studentAuth(req, res, next) {
     const tokenCookie = req.cookies?.token;
     console.log("TOKEN: ", tokenCookie);
     req.user = null;
@@ -14,12 +16,13 @@ export function studentAuth(req, res, next) {
     if (user.role !== "student") {
         res.status(403).send("Unauthorized");
     }
-
-    req.user = user;
+    const student = await Student.findOne({ where: { userId: user.id } });
+    req.user = { ...user, studentId: student.id };
+    console.log("STUDENT: ", req.user);
     next();
 }
 
-export function guardAuth(req, res, next) {
+export async function guardAuth(req, res, next) {
     const tokenCookie = req.cookies?.token;
     console.log("TOKEN: ", tokenCookie);
     req.user = null;
@@ -30,6 +33,7 @@ export function guardAuth(req, res, next) {
     if (user.role !== "guard") {
         res.status(403).send("Unauthorized");
     }
-    req.user = user;
+    const guard = Guard.findOne({ where: { userId: user.id } });
+    req.user = { ...user, guardId: guard.id };
     next();
 }

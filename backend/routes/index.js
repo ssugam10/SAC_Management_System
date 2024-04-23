@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use("/auth", authRouter);
 router.use("/item", itemRouter);
-router.use("/students", studentsRouter);
+router.use("/student", studentsRouter);
 router.use("/request", requestRouter);
 
 export default router;

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import moment from "moment";
 const Queue = ({ showQueue, setShowQueue, item }) => {
     console.log("ID: ", item.id);
     const [queue, setQueue] = useState([]);
@@ -8,7 +9,8 @@ const Queue = ({ showQueue, setShowQueue, item }) => {
             .get(`http://localhost:5555/api/item/${item.id}/queue/`)
             .then((response) => {
                 console.log(response);
-                setQueue(response.data);
+                setQueue(response.data.requests);
+                console.log(response.data.requests);
             })
             .catch((err) => {
                 console.log(err);
@@ -42,11 +44,23 @@ const Queue = ({ showQueue, setShowQueue, item }) => {
                         </button>
                     </div>
                     <div className="flex flex-col p-4">
-                        <div className="flex justify-between items-center border-b-2 border-gray-300 p-4">
-                            <div>Name</div>
+                        <div className="flex font-semibold justify-between items-center border-b-2 border-gray-300 p-4">
+                            <div>Person</div>
                             <div>Time</div>
+                            <div>Quantity</div>
                         </div>
                     </div>
+                    {queue.map((request, key) => (
+                        <div className="flex flex-col" key={key}>
+                            <div className="flex justify-between items-center border-b-2 border-gray-300 p-4">
+                                <div>{request.student.user.name}</div>
+                                <div>
+                                    {moment(request.createdAt).format("lll")}
+                                </div>
+                                <div>{request.quantity}</div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

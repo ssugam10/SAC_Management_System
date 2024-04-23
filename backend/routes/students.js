@@ -1,7 +1,12 @@
 // routes.js
 
-import express from 'express';
-import studentController from '../controllers/StudentControllers.js';
+import express from "express";
+import {
+    getStudentHistoryLogs,
+    addItemToHistoryLogs,
+    getStudentDetails,
+} from "../controllers/student.controllers.js";
+import { studentAuth } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -10,7 +15,8 @@ const router = express.Router();
 // }
 
 // Route to get history logs of a specific student by ID
-router.get('/:studentId/historyLogs', studentController.getStudentHistoryLogs);
-router.post('/:studentId/addItem', studentController.addItemToHistoryLogs);
+router.get("/:studentId", getStudentDetails);
+router.get("/:studentId/historyLogs", studentAuth, getStudentHistoryLogs);
+router.post("/:studentId/addItem", studentAuth, addItemToHistoryLogs);
 
 export default router;

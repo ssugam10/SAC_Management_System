@@ -1,5 +1,6 @@
 import Item from "../models/Item.js";
 import Request from "../models/Request.js";
+import Student from "../models/Student.js";
 
 export const getItems = async (req, res) => {
     try {
@@ -101,8 +102,9 @@ export const getQueue = async (req, res) => {
     try {
         const itemId = req.params.id; // Get item ID from URL parameters
 
-        const item = await Item.findByPk(itemId, {
-            include: Request,
+        const item = await Item.findOne({
+            where: { id: itemId },
+            include: { all: true, nested: true },
         });
 
         if (!item) {

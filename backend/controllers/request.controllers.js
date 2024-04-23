@@ -1,11 +1,13 @@
 import User from "../models/User.js";
 import Request from "../models/Request.js";
 import Item from "../models/Item.js";
+import Student from "../models/Student.js";
 
 export const createRequest = async (req, res) => {
-    const { itemId } = req.params;
-    const { quantity } = req.body;
-    console.log("ITEM: ", itemId);
+    let { itemId, quantity } = req.body;
+    itemId = Number(itemId);
+    quantity = Number(quantity);
+    const studentId = Number(req.user.studentId);
     try {
         if (!itemId || !quantity) {
             return res
@@ -21,13 +23,21 @@ export const createRequest = async (req, res) => {
             return res.status(404).send({ message: "Item not found" });
         }
 
+        const student = await Student.findOne({
+            where: { id: studentId },
+        });
+
+        if (!student) {
+            return res.status(404).send({ message: "Student not found" });
+        }
+
         if (item.remaining < quantity) {
             return res.status(400).send({ message: "Not enough items" });
         }
 
         const request = {
             itemId,
-            userId: req.user.id,
+            studentId,
             quantity: quantity ? quantity : 1,
         };
 

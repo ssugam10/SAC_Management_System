@@ -36,6 +36,7 @@ export const register = async (req, res) => {
         };
 
         const createdUser = await User.create(newUser);
+        const createdStudent = await Student.create({ userId: createdUser.id });
         return res.status(201).send(createdUser);
     } catch (error) {
         console.log(error);
