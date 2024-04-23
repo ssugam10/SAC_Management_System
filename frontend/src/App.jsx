@@ -7,8 +7,12 @@ import ShowItem from "./pages/ShowItem";
 import EditItem from "./pages/EditItem";
 import DeleteItem from "./pages/DeleteItem";
 import Students from './pages/Students'
+import Register from './pages/Register'
+import Login from "./pages/Login";
 
 const App = () => {
+
+    
     return (
         <Routes>
             <Route path="/" element={<Home />} />
@@ -16,7 +20,9 @@ const App = () => {
             <Route path="/items/details/:id" element={<ShowItem />} />
             <Route path="/items/edit/:id" element={<EditItem />} />
             <Route path="/items/delete/:id" element={<DeleteItem />} />
-            <Route path='/books/student/:id' element={<Students/>} />
+            <Route path='/items/student/:id' element={<Students/>} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<Login />} />
         </Routes>
     );
 };
