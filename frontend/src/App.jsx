@@ -6,6 +6,7 @@ import CreateItem from "./pages/CreateItems";
 import ShowItem from "./pages/ShowItem";
 import EditItem from "./pages/EditItem";
 import DeleteItem from "./pages/DeleteItem";
+import Students from './pages/Students'
 
 const App = () => {
     return (
@@ -15,8 +16,24 @@ const App = () => {
             <Route path="/items/details/:id" element={<ShowItem />} />
             <Route path="/items/edit/:id" element={<EditItem />} />
             <Route path="/items/delete/:id" element={<DeleteItem />} />
+            <Route path='/books/student/:id' element={<Students/>} />
         </Routes>
     );
 };
 
-export default App;
+export default App
+
+
+                        // if(log.returnTime){
+                        //     var hours = log.returnTime.getHours();
+                        //     var minutes = log.returnTime.getMinutes();
+                        //     var seconds = log.returnTime.getSeconds();
+
+                        //     // Format the time to ensure leading zeros if needed
+                        //     hours = (hours < 10 ? "0" : "") + hours;
+                        //     minutes = (minutes < 10 ? "0" : "") + minutes;
+                        //     seconds = (seconds < 10 ? "0" : "") + seconds;
+
+                        //     // Create a string representing the current time
+                        //     var currentTime = hours + ":" + minutes + ":" + seconds;
+                        // }
