@@ -2,15 +2,17 @@ import express from "express";
 import sequelize from "./config.js";
 
 import itemsRoute from "./routes/item.js";
-
+import morgan from "morgan";
 import Item from "./models/Item.js";
 import Student from "./models/Student.js";
 import Request from "./models/Request.js";
 import User from "./models/User.js";
 import Guard from "./models/Guard.js";
+import HistoryLog from "./models/HistoryLog.js";
 import cors from "cors";
 import router from "./routes/index.js";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 const PORT = 5555;
 
@@ -32,9 +34,14 @@ Student.belongsTo(User);
 User.hasMany(Guard);
 Guard.belongsTo(User);
 
+Student.hasMany(HistoryLog, { as: "historyLogs" });
+HistoryLog.belongsTo(Student, { foreignKey: "studentId", as: "student" });
+
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
     return res.status(234).send("Welcome home");

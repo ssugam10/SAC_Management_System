@@ -3,6 +3,7 @@ import Student from "../models/Student.js";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { setUser } from "../services/auth.js";
 
 export const register = async (req, res) => {
     const { email, password, name } = req.body;
@@ -35,6 +36,7 @@ export const register = async (req, res) => {
         };
 
         const createdUser = await User.create(newUser);
+        const createdStudent = await Student.create({ userId: createdUser.id });
         return res.status(201).send(createdUser);
     } catch (error) {
         console.log(error);
@@ -65,16 +67,13 @@ export const login = async (req, res) => {
             return res.status(400).send({ message: "Invalid credentials" });
         }
 
-        const token = jwt.sign(
-            { id: user.id, role: user.role },
-            process.env.JWT_SECRET
-        );
-        res.cookie("token", token, { httpOnly: true });
+        const token = setUser({ id: user.id, role: user.role });
         return res.status(200).send({
             id: user.id,
             role: user.role,
             name: user.name,
             email: user.email,
+            token,
         });
     } catch (error) {
         console.log(error);

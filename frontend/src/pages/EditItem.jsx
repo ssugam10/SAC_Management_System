@@ -28,7 +28,11 @@ const EditItem = () => {
     const handleEditItem = () => {
         setLoading(true);
         axios
-            .put(`http://localhost:5555/api/item/${id}`, item)
+            .put(`http://localhost:5555/api/item/${id}`, item, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            })
             .then(() => {
                 setLoading(false);
                 navigate("/");
