@@ -15,7 +15,7 @@ const Item = sequelize.define('item',{
     
     timeOfIssue: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     needRepairs: Sequelize.BOOLEAN,
     quantity: Sequelize.INTEGER,
