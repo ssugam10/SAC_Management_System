@@ -8,7 +8,13 @@ import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 import moment from "moment";
 
 const Home = () => {
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState([
+        {name:"bball", quantity:2, remaining:1},
+        {name:"bball", quantity:2, remaining:1},
+        {name:"bball", quantity:2, remaining:1},
+        {name:"bball", quantity:2, remaining:1},
+        {name:"bball", quantity:2, remaining:1},
+    ]);
     const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchParams, setSearchParams] = useState([]);
@@ -42,7 +48,7 @@ const Home = () => {
     return (
         <div className="p-4 h-screen bg-gray-100" style={{ color: "#333" }}>
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold">SAC Mgmt.</h1>
+                <h1 className="text-3xl font-bold">SAC Management</h1>
                 <div className="input-box relative right-16">
                     <input
                         type="search"
