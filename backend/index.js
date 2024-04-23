@@ -33,6 +33,9 @@ Student.belongsTo(User);
 User.hasMany(Guard);
 Guard.belongsTo(User);
 
+Student.hasMany(HistoryLog, { as: 'historyLogs' });
+HistoryLog.belongsTo(Student, { foreignKey: 'studentId', as: 'student' });
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());

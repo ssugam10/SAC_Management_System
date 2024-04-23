@@ -1,6 +1,5 @@
 import Sequelize from 'sequelize';
 import sequelize from '../config.js';
-import HistoryLog from './HistoryLog.js';
 
 const Student = sequelize.define('student', {
     id: {
@@ -11,6 +10,4 @@ const Student = sequelize.define('student', {
     },
 });
 
-Student.hasMany(HistoryLog, { as: 'historyLogs' });
-HistoryLog.belongsTo(Student, { foreignKey: 'studentId', as: 'student' });
 export default Student;
