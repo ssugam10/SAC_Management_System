@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-const sequelize = new Sequelize("sac_mgmt", "root", "root", {
+const sequelize = new Sequelize("sac_management_system", "root", "sugam112", {
     dialect: "mysql",
     host: "localhost",
 });

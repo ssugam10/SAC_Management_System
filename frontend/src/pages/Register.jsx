@@ -28,7 +28,7 @@ const Register = () => {
     <div className="p-8 h-screen bg-gray-200">
       <h1 className="text-3xl font-bold my-4 text-center">Signup</h1>
 
-      <div className="my-4">
+      <div className="my-4 w-80">
         <label htmlFor="name" className="text-lg font-semibold text-gray-800">
           Name
         </label>
@@ -41,7 +41,7 @@ const Register = () => {
         />
       </div>
 
-      <div className="my-4">
+      <div className="my-4 w-80">
         <label htmlFor="email" className="text-lg font-semibold text-gray-800">
           Email
         </label>
@@ -54,7 +54,7 @@ const Register = () => {
         />
       </div>
 
-      <div className="my-4">
+      <div className="my-4 w-80">
         <label
           htmlFor="password"
           className="text-lg font-semibold text-gray-800"
